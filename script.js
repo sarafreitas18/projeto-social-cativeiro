@@ -445,6 +445,8 @@ window.viewFamily = (id) => {
 
 window.deleteFamily = async (id) => {
 
+    console.log("ID RECEBIDO:", id);
+
     if (!confirm('Tem certeza que deseja excluir permanentemente este cadastro?')) {
         return;
     }
@@ -453,15 +455,15 @@ window.deleteFamily = async (id) => {
 
         await deleteDoc(doc(db, "familias", id));
 
+        console.log("EXCLUIU!");
+
         alert("Família excluída!");
 
         await loadFamilies();
 
     } catch (error) {
 
-        console.error(error);
-
-        alert("Erro ao excluir família.");
+        console.error("ERRO:", error);
 
     }
 };
