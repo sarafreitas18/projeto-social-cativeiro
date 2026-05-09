@@ -294,7 +294,6 @@ document.getElementById('save-family-btn').addEventListener('click', async () =>
     }
 
     const newFamily = {
-        id: Date.now().toString(),
         responsibleName: formData.get('responsibleName'),
         birthDate: formData.get('birthDate'),
         gender: formData.get('gender'),
