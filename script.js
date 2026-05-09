@@ -190,7 +190,7 @@ function updateStats() {
     statFamilies.innerText = families.length;
     let childrenCount = 0;
     families.forEach(f => {
-        childrenCount += f.members.filter(m => {
+        childrenCount += (f.members || []).filter(m => {
             const age = new Date().getFullYear() - new Date(m.birthDate).getFullYear();
             return age < 18;
         }).length;
