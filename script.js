@@ -4,7 +4,9 @@ import {
   getFirestore,
   collection,
   addDoc,
-  getDocs
+  getDocs,
+deleteDoc,
+doc
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -441,12 +443,12 @@ window.viewFamily = (id) => {
     lucide.createIcons();
 };
 
-window.deleteFamily = (id) => {
+window.deleteFamily = async (id) => {
     if (!confirm('Tem certeza que deseja excluir permanentemente este cadastro?')) return;
-    
-    families = families.filter(f => f.id !== id);
-    
-    updateStats();
-    renderFamilies();
-    renderRecentFamilies();
+
+    await deleteDoc(doc(db, "familias", id));
+
+    await loadFamilies();
+
+    alert("Família excluída com sucesso!");
 };
