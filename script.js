@@ -444,11 +444,24 @@ window.viewFamily = (id) => {
 };
 
 window.deleteFamily = async (id) => {
-    if (!confirm('Tem certeza que deseja excluir permanentemente este cadastro?')) return;
 
-    await deleteDoc(doc(db, "familias", id));
+    if (!confirm('Tem certeza que deseja excluir permanentemente este cadastro?')) {
+        return;
+    }
 
-    await loadFamilies();
+    try {
 
-    alert("Família excluída com sucesso!");
+        await deleteDoc(doc(db, "familias", id));
+
+        alert("Família excluída!");
+
+        await loadFamilies();
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert("Erro ao excluir família.");
+
+    }
 };
