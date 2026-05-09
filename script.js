@@ -209,7 +209,7 @@ function renderFamilies() {
                         ${(f.responsibleName || '?').charAt(0)}
                     </div>
                     <div>
-                        <p class="font-bold text-sm text-slate-800">${(f.responsibleName || '?').charAt(0)}</p>
+                        <p class="font-bold text-sm text-slate-800">${f.responsibleName || 'Sem nome'}</p>
                         <p class="text-[10px] text-slate-400 font-medium">CPF: ${f.cpf || '---'}</p>
                     </div>
                 </div>
@@ -236,7 +236,7 @@ function renderRecentFamilies() {
                     ${(f.responsibleName || '?').charAt(0)}
                 </div>
                 <div>
-                    <p class="font-bold text-slate-800 text-sm">${f.responsibleName}</p>
+                    <p class="font-bold text-sm text-slate-800">${f.responsibleName || 'Sem nome'}</p>
                     <div class="flex gap-2 mt-1">
                         <span class="px-1.5 py-0.5 bg-blue-50 text-blue-600 text-[9px] rounded font-bold">NIS: ${f.nisNumber || '---'}</span>
                         <span class="px-1.5 py-0.5 bg-emerald-50 text-emerald-600 text-[9px] rounded font-bold uppercase tracking-tight">${f.neighborhood}</span>
@@ -355,9 +355,9 @@ window.viewFamily = (id) => {
                     <div class="h-2 bg-blue-600"></div>
                     <div class="p-6 text-center">
                         <div class="w-24 h-24 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center text-4xl font-bold mx-auto mb-4">
-                            ${(f.responsibleName || '?').charAt(0)}
+                            ${(family.responsibleName || '?').charAt(0)}
                         </div>
-                        <h3 class="text-lg font-bold text-slate-800">${f.responsibleName || 'Sem nome'}</h3>
+                        <h3 class="text-lg font-bold text-slate-800">${family.responsibleName || 'Sem nome'}</h3>
                         <p class="text-slate-400 text-xs mt-1 uppercase font-bold tracking-widest">${family.professionalSituation || 'Sem registro'}</p>
                     </div>
                 </div>
