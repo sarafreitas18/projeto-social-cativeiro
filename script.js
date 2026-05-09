@@ -312,6 +312,7 @@ document.getElementById('save-family-btn').addEventListener('click', async () =>
 
     families.unshift(newFamily);
     await addDoc(collection(db, "familias"), newFamily);
+    await loadFamilies();
     
     // Reset
     form.reset();
