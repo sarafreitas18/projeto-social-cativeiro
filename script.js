@@ -1,3 +1,23 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDa4Ep2cebafM5gMfsZ7B0GHtYbrp-1jF8",
+  authDomain: "sistema-ong-cativeiro.firebaseapp.com",
+  projectId: "sistema-ong-cativeiro",
+  storageBucket: "sistema-ong-cativeiro.firebasestorage.app",
+  messagingSenderId: "394663192159",
+  appId: "1:394663192159:web:db3fa58427672c61901dea"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 /**
  * Script do Projeto Social Cativeiro
  * Gerencia navegação, autenticação e dados mockados
@@ -59,7 +79,7 @@ const INITIAL_FAMILIES = [
 ];
 
 // Instância de dados
-let families = JSON.parse(localStorage.getItem('cativeiro_families')) || INITIAL_FAMILIES;
+let families = [];
 let currentRegistrationMembers = [];
 
 // --- SELETORES ---
@@ -82,11 +102,25 @@ document.addEventListener('DOMContentLoaded', () => {
     // Inicializar Ícones
     lucide.createIcons();
 
-    // Renderizar Dados Iniciais
+    loadFamilies();
+});
+
+async function loadFamilies() {
+    const querySnapshot = await getDocs(collection(db, "familias"));
+
+    families = [];
+
+    querySnapshot.forEach((doc) => {
+        families.push({
+            id: doc.id,
+            ...doc.data()
+        });
+    });
+
     updateStats();
     renderFamilies();
     renderRecentFamilies();
-});
+}
 
 // --- AUTENTICAÇÃO ---
 document.getElementById('login-form').addEventListener('submit', (e) => {
@@ -248,7 +282,7 @@ window.removeMemberFromForm = (index) => {
     renderMembersInForm();
 };
 
-document.getElementById('save-family-btn').addEventListener('click', () => {
+document.getElementById('save-family-btn').addEventListener('click', async () => {
     const form = document.getElementById('registration-form');
     const formData = new FormData(form);
     
@@ -277,7 +311,7 @@ document.getElementById('save-family-btn').addEventListener('click', () => {
     };
 
     families.unshift(newFamily);
-    localStorage.setItem('cativeiro_families', JSON.stringify(families));
+    await addDoc(collection(db, "familias"), newFamily);
     
     // Reset
     form.reset();
@@ -410,7 +444,6 @@ window.deleteFamily = (id) => {
     if (!confirm('Tem certeza que deseja excluir permanentemente este cadastro?')) return;
     
     families = families.filter(f => f.id !== id);
-    localStorage.setItem('cativeiro_families', JSON.stringify(families));
     
     updateStats();
     renderFamilies();
