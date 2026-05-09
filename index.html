@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projeto Social Cativeiro - Gestão ONG</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Custom Style -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-slate-50 font-sans text-slate-900 overflow-x-hidden">
+
+    <!-- LOGIN SCREEN -->
+    <section id="login-screen" class="min-h-screen flex items-center justify-center p-4 relative overflow-hidden bg-slate-50">
+        <div class="absolute top-[-10%] left-[-5%] w-[40%] h-[40%] bg-blue-500/5 rounded-full blur-[100px]"></div>
+        <div class="absolute bottom-[-10%] right-[-5%] w-[40%] h-[40%] bg-emerald-500/10 rounded-full blur-[100px]"></div>
+        
+        <div class="w-full max-w-md z-10">
+            <div class="flex flex-col items-center mb-8 text-center">
+                <div class="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-2xl shadow-blue-600/30 mb-4 ring-4 ring-white">
+                    <i data-lucide="heart" class="fill-current w-9 h-9"></i>
+                </div>
+                <h1 class="font-display text-3xl font-bold text-gray-900">Projeto Cativeiro</h1>
+                <p class="text-slate-500 mt-2 text-balance">Bem-vindo ao sistema de gestão social. Transformando vidas através do cuidado.</p>
+            </div>
+
+            <div class="bg-white p-8 rounded-[24px] shadow-2xl shadow-slate-200/60 border border-white">
+                <h2 class="text-xl font-bold mb-1">Acessar Sistema</h2>
+                <p class="text-slate-400 text-sm mb-6">Entre com suas credenciais de administrador.</p>
+                
+                <form id="login-form" class="space-y-4">
+                    <div class="space-y-2">
+                        <label class="text-sm font-semibold text-slate-700">E-mail</label>
+                        <div class="relative">
+                            <i data-lucide="mail" class="absolute left-3 top-3 w-4 h-4 text-slate-400"></i>
+                            <input type="email" placeholder="admin@projeto.org" value="admin@projeto.org" required class="input-field pl-10 h-11">
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between">
+                            <label class="text-sm font-semibold text-slate-700">Senha</label>
+                            <a href="#" class="text-xs text-blue-600 hover:underline">Esqueceu a senha?</a>
+                        </div>
+                        <div class="relative">
+                            <i data-lucide="lock" class="absolute left-3 top-3 w-4 h-4 text-slate-400"></i>
+                            <input type="password" value="123456" required class="input-field pl-10 h-11">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary w-full h-11 text-base mt-2 flex items-center justify-center gap-2">
+                        Entrar <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </button>
+                </form>
+            </div>
+            <p class="text-center text-sm text-slate-400 mt-8">Precisa de ajuda? <a href="#" class="text-blue-600 font-semibold">Suporte Técnico</a></p>
+        </div>
+    </section>
+
+    <!-- MAIN APP WRAPPER (HIDDEN INITIALLY) -->
+    <div id="main-app" class="hidden min-h-screen flex flex-col md:flex-row">
+        
+        <!-- SIDEBAR -->
+        <aside id="sidebar" class="w-64 bg-[#0f172a] text-white flex-col fixed inset-y-0 left-0 hidden md:flex transition-transform z-50">
+            <div class="p-6 flex items-center gap-3 border-b border-white/10">
+                <div class="w-10 h-10 bg-emerald-500 rounded-lg flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                    <i data-lucide="heart" class="fill-current w-6 h-6"></i>
+                </div>
+                <div>
+                    <h1 class="font-display font-bold text-lg leading-tight">Cativeiro</h1>
+                    <p class="text-[10px] uppercase font-bold text-emerald-400 tracking-widest">Projeto Social</p>
+                </div>
+            </div>
+            
+            <nav class="flex-1 p-4 space-y-1 mt-4">
+                <div class="px-4 mb-4 text-[10px] font-bold text-blue-400 uppercase tracking-widest">Menu Principal</div>
+                <button data-section="dashboard" class="nav-item active"><i data-lucide="layout-dashboard"></i> Dashboard</button>
+                <button data-section="list" class="nav-item"><i data-lucide="users"></i> Famílias</button>
+                <button data-section="registration" class="nav-item"><i data-lucide="user-plus"></i> Novo Cadastro</button>
+                <button class="nav-item"><i data-lucide="calendar"></i> Agenda</button>
+                <button class="nav-item"><i data-lucide="settings"></i> Configurações</button>
+            </nav>
+
+            <div class="p-6 border-t border-white/10 space-y-6">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-blue-800 flex items-center justify-center text-[10px] font-bold">SF</div>
+                    <div>
+                        <p class="text-xs font-bold">Sara Freitas</p>
+                        <p class="text-[10px] text-blue-400">Administradora</p>
+                    </div>
+                </div>
+                <button id="logout-btn" class="flex items-center gap-3 text-blue-200/60 hover:text-white text-sm font-medium transition-colors cursor-pointer w-full text-left">
+                    <i data-lucide="log-out" class="w-4 h-4"></i> Sair do Sistema
+                </button>
+            </div>
+        </aside>
+
+        <!-- CONTENT AREA -->
+        <main class="flex-1 md:ml-64 flex flex-col h-screen overflow-hidden">
+            <!-- Header/Navbar -->
+            <header class="h-16 bg-white/80 backdrop-blur-md border-b flex items-center justify-between px-6 sticky top-0 z-40">
+                <div class="flex items-center gap-4">
+                    <button class="md:hidden text-slate-500" id="mobile-menu-btn text-slate-500">
+                        <i data-lucide="menu"></i>
+                    </button>
+                    <div class="hidden sm:flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-full border border-slate-200/50 group focus-within:ring-2 ring-blue-500/20 transition-all">
+                        <i data-lucide="search" class="w-4 h-4 text-slate-400"></i>
+                        <input type="text" placeholder="Busca global..." class="bg-transparent border-none text-xs focus:outline-none w-48 placeholder:text-slate-400">
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <button class="relative p-2 text-slate-400 hover:text-blue-600">
+                        <i data-lucide="bell" class="w-5 h-5"></i>
+                        <span class="absolute top-2 right-2 w-2 h-2 bg-rose-500 rounded-full border-2 border-white"></span>
+                    </button>
+                    <div class="w-8 h-8 rounded-full bg-slate-200 overflow-hidden ring-2 ring-blue-500/10">
+                        <img src="https://github.com/shadcn.png" alt="Avatar">
+                    </div>
+                </div>
+            </header>
+
+            <!-- SECTIONS CONTAINER -->
+            <div id="sections-wrapper" class="flex-1 overflow-y-auto p-6 scroll-smooth">
+                
+                <!-- SECTION: DASHBOARD -->
+                <section id="section-dashboard" class="section-content space-y-8 animate-in fly-in duration-500">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <div class="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">
+                                <span>Início</span> <span>/</span> <span class="text-blue-600">Dashboard</span>
+                            </div>
+                            <h2 class="text-3xl font-bold text-slate-900">Projeto Social Cativeiro</h2>
+                            <p class="text-slate-500">Resumo geral das famílias e atendimentos realizados.</p>
+                        </div>
+                        <button data-section="registration" class="btn-primary flex items-center gap-2 shadow-lg shadow-blue-600/20 rounded-xl px-6 py-2.5 nav-trigger">
+                            <i data-lucide="user-plus" class="w-4 h-4"></i> Novo Cadastro
+                        </button>
+                    </div>
+
+                    <!-- Stats Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div class="bento-card p-5 flex items-center gap-4">
+                            <div class="p-3 bg-blue-100 text-blue-600 rounded-xl text-2xl">🏠</div>
+                            <div>
+                                <div id="stat-families" class="text-2xl font-bold text-slate-800">1.254</div>
+                                <div class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Famílias Ativas</div>
+                            </div>
+                        </div>
+                        <div class="bento-card p-5 flex items-center gap-4">
+                            <div class="p-3 bg-emerald-100 text-emerald-600 rounded-xl text-2xl">🧸</div>
+                            <div>
+                                <div id="stat-children" class="text-2xl font-bold text-slate-800">3.420</div>
+                                <div class="text-[10px] uppercase font-bold text-emerald-400 tracking-wider">Crianças Atendidas</div>
+                            </div>
+                        </div>
+                        <div class="bento-card p-5 flex items-center gap-4">
+                            <div class="p-3 bg-amber-100 text-amber-600 rounded-xl text-2xl">🤝</div>
+                            <div>
+                                <div id="stat-assistance" class="text-2xl font-bold text-slate-800">85</div>
+                                <div class="text-[10px] uppercase font-bold text-amber-500 tracking-wider">Atendimentos/mês</div>
+                            </div>
+                        </div>
+                        <div class="bento-card p-5 flex items-center gap-4 border-l-4 border-rose-500">
+                            <div class="p-3 bg-rose-100 text-rose-600 rounded-xl text-2xl">⚠️</div>
+                            <div>
+                                <div class="text-2xl font-bold text-slate-800">12</div>
+                                <div class="text-[10px] uppercase font-bold text-rose-500 tracking-wider">Urgências</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Main Dashboard Bento Grid -->
+                    <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
+                        <div class="lg:col-span-3 bento-card flex flex-col min-h-[400px]">
+                            <div class="p-5 border-b flex justify-between items-center">
+                                <div>
+                                    <h3 class="font-bold text-slate-800">Famílias Recentes</h3>
+                                    <p class="text-xs text-slate-400">Últimos acompanhamentos realizados</p>
+                                </div>
+                                <button data-section="list" class="text-blue-600 font-bold text-[10px] uppercase tracking-widest hover:bg-blue-50 px-3 py-1.5 rounded-lg nav-trigger">Ver lista completa</button>
+                            </div>
+                            <div class="p-4 flex-1" id="recent-families-list">
+                                <!-- Populated via JS -->
+                            </div>
+                        </div>
+                        <div class="lg:col-span-1 space-y-4">
+                            <div class="bento-card p-6 bg-blue-600 text-white relative overflow-hidden group">
+                                <div class="absolute -top-10 -right-10 w-32 h-32 bg-white/10 rounded-full blur-2xl group-hover:scale-110 transition-transform"></div>
+                                <h3 class="font-bold mb-1">Busca Rápida</h3>
+                                <p class="text-[10px] text-blue-100/70 uppercase tracking-widest font-bold mb-4">Encontre qualquer cadastro</p>
+                                <div class="relative mb-4">
+                                    <i data-lucide="search" class="absolute left-3 top-3.5 w-4 h-4 text-blue-600"></i>
+                                    <input type="text" placeholder="Nome, CPF ou NIS..." class="w-full bg-white text-slate-900 pl-10 pr-4 py-3 rounded-xl text-sm focus:outline-none ring-4 ring-white/10 transition-all font-medium">
+                                </div>
+                                <button class="w-full py-3 bg-blue-500 text-white rounded-xl text-sm font-bold shadow-lg shadow-blue-700/20 hover:bg-blue-400 transition-colors">Pesquisar</button>
+                            </div>
+
+                            <div class="bento-card p-5">
+                                <h3 class="font-bold text-slate-800 text-sm mb-4 uppercase tracking-widest text-[10px] text-slate-400">Atalhos e Recursos</h3>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <button class="shortcut-btn"><i data-lucide="file-text"></i><span>Relatórios</span></button>
+                                    <button class="shortcut-btn"><i data-lucide="users"></i><span>Equipe</span></button>
+                                    <button class="shortcut-btn"><i data-lucide="heart"></i><span>Doações</span></button>
+                                    <button class="shortcut-btn"><i data-lucide="trending-up"></i><span>Impacto</span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECTION: FAMILY LIST -->
+                <section id="section-list" class="section-content hidden space-y-8 animate-in fade-in zoom-in-95 duration-500">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <div class="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-2">
+                                <span>Administração</span> <span>/</span> <span class="text-blue-600">Famílias</span>
+                            </div>
+                            <h2 class="text-3xl font-bold text-slate-900">Núcleos Familiares</h2>
+                            <p class="text-slate-500">Total de cadastros ativos e acompanhamentos.</p>
+                        </div>
+                        <button data-section="registration" class="btn-primary rounded-xl px-6 py-2.5 nav-trigger"><i data-lucide="user-plus" class="w-4 h-4 inline mr-2"></i> Adicionar Família</button>
+                    </div>
+
+                    <div class="bento-card p-6 bg-white">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="relative flex-1">
+                                <i data-lucide="search" class="absolute left-3 top-3.5 w-4 h-4 text-slate-400"></i>
+                                <input type="text" id="family-search-input" placeholder="Filtrar por nome, CPF, NIS ou Bairro..." class="input-field pl-10 h-11 bg-slate-50 border-slate-100 rounded-xl focus:bg-white transition-all">
+                            </div>
+                            <button class="h-11 px-6 rounded-xl border border-slate-200 font-bold text-xs uppercase tracking-widest hover:bg-slate-50">Filtros</button>
+                        </div>
+
+                        <div class="border border-slate-100 rounded-2xl overflow-hidden">
+                            <table class="w-full text-left border-collapse">
+                                <thead class="bg-slate-50/80">
+                                    <tr>
+                                        <th class="px-6 py-4 text-[10px] font-bold uppercase text-slate-400 tracking-widest">Responsável</th>
+                                        <th class="px-6 py-4 text-[10px] font-bold uppercase text-slate-400 tracking-widest">Bairro</th>
+                                        <th class="px-6 py-4 text-[10px] font-bold uppercase text-slate-400 tracking-widest">NIS</th>
+                                        <th class="px-6 py-4 text-[10px] font-bold uppercase text-slate-400 tracking-widest">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="families-table-body">
+                                    <!-- Populated via JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECTION: REGISTRATION FORM -->
+                <section id="section-registration" class="section-content hidden space-y-8 animate-in slide-in-from-bottom duration-500 max-w-5xl mx-auto">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-4">
+                            <button data-section="list" class="w-10 h-10 rounded-xl hover:bg-slate-200/50 flex items-center justify-center nav-trigger">
+                                <i data-lucide="chevron-left"></i>
+                            </button>
+                            <div>
+                                <h2 class="text-2xl font-bold text-slate-900">Novo Cadastro Familiar</h2>
+                                <p class="text-slate-500 text-sm">Registre as informações socioeconômicas e membros da família.</p>
+                            </div>
+                        </div>
+                        <button type="button" form="registration-form" id="save-family-btn" class="btn-primary shadow-lg shadow-blue-600/20 px-8 py-2.5 rounded-xl flex items-center gap-2">
+                            <i data-lucide="save" class="w-4 h-4"></i> Salvar Cadastro
+                        </button>
+                    </div>
+
+                    <div class="bento-card">
+                        <div class="border-b p-4">
+                            <div class="flex bg-slate-100 p-1 rounded-xl w-fit">
+                                <button data-tab="tab-basic" class="tab-btn active">Dados Principais</button>
+                                <button data-tab="tab-housing" class="tab-btn">Moradia / Social</button>
+                                <button data-tab="tab-members" class="tab-btn">Composição Familiar</button>
+                            </div>
+                        </div>
+
+                        <div class="p-8">
+                            <form id="registration-form" class="space-y-8">
+                                <!-- TAB 1: BASIC -->
+                                <div id="tab-basic" class="tab-pane grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    <div class="md:col-span-2 space-y-2">
+                                        <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">Nome Completo</label>
+                                        <input type="text" name="responsibleName" required placeholder="Ex: Maria José da Silva" class="input-field h-11">
+                                    </div>
+                                    <div class="space-y-2">
+                                        <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">Data Nascimento</label>
+                                        <input type="date" name="birthDate" required class="input-field h-11">
+                                    </div>
+                                    <div class="space-y-2">
+                                        <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">Sexo</label>
+                                        <select name="gender" class="input-field h-11">
+                                            <option value="F">Feminino</option>
+                                            <option value="M">Masculino</option>
+                                            <option value="Outro">Outro</option>
+                                        </select>
+                                    </div>
+                                    <div class="space-y-2">
+                                        <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">Telefone</label>
+                                        <input type="text" name="phone" placeholder="(00) 00000-0000" class="input-field h-11">
+                                    </div>
+                                    <div class="space-y-2">
+                                        <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">RG</label>
+                                        <input type="text" name="rg" class="input-field h-11">
+                                    </div>
+                                    <div class="space-y-2">
+                                        <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">CPF</label>
+                                        <input type="text" name="cpf" class="input-field h-11">
+                                    </div>
+                                    <div class="space-y-2">
+                                        <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">NIS</label>
+                                        <input type="text" name="nis" class="input-field h-11">
+                                    </div>
+                                    <div class="md:col-span-2 space-y-2">
+                                        <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">Endereço</label>
+                                        <input type="text" name="address" class="input-field h-11">
+                                    </div>
+                                    <div class="space-y-2">
+                                        <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">Bairro</label>
+                                        <input type="text" name="neighborhood" class="input-field h-11">
+                                    </div>
+                                </div>
+
+                                <!-- TAB 2: HOUSING -->
+                                <div id="tab-housing" class="tab-pane hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    <div class="space-y-2">
+                                        <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">Situação Profissional</label>
+                                        <select name="job" class="input-field h-11">
+                                            <option>Desempregado</option>
+                                            <option>Autônomo</option>
+                                            <option>CLT</option>
+                                            <option>Aposentado</option>
+                                        </select>
+                                    </div>
+                                    <div class="space-y-2">
+                                        <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">Tipo Moradia</label>
+                                        <select name="housing" class="input-field h-11">
+                                            <option>Própria</option>
+                                            <option>Alugada</option>
+                                            <option>Cedida</option>
+                                            <option>Ocupação</option>
+                                        </select>
+                                    </div>
+                                    <div class="space-y-2">
+                                        <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">Renda Familiar Est.</label>
+                                        <input type="number" name="income" placeholder="R$ 0,00" class="input-field h-11">
+                                    </div>
+                                    <div class="md:col-span-3 space-y-2">
+                                        <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">Observações/Nidididade</label>
+                                        <textarea name="notes" placeholder="Descreva aqui o motivo principal do auxílio e pontos de atenção..." class="input-field min-h-[120px] py-3"></textarea>
+                                    </div>
+                                </div>
+
+                                <!-- TAB 3: MEMBERS -->
+                                <div id="tab-members" class="tab-pane hidden space-y-6 animate-in fade-in duration-300">
+                                    <div class="p-4 bg-slate-50 rounded-xl flex flex-wrap gap-4 items-end border border-dashed border-slate-200">
+                                        <div class="flex-1 min-w-[200px] space-y-1">
+                                            <label class="text-[10px] font-bold text-slate-400 uppercase">Nome Membro</label>
+                                            <input type="text" id="member-name" class="input-field h-10 border-white bg-white">
+                                        </div>
+                                        <div class="w-32 space-y-1">
+                                            <label class="text-[10px] font-bold text-slate-400 uppercase">Parentesco</label>
+                                            <input type="text" id="member-relation" placeholder="Ex: Filho" class="input-field h-10 border-white bg-white">
+                                        </div>
+                                        <button type="button" id="add-member-btn" class="bg-emerald-500 text-white h-10 px-6 rounded-lg font-bold text-xs uppercase transition-all hover:bg-emerald-600 shadow-lg shadow-emerald-500/20 flex items-center gap-2">
+                                            <i data-lucide="plus"></i> Adicionar
+                                        </button>
+                                    </div>
+
+                                    <div class="overflow-hidden border border-slate-100 rounded-xl">
+                                        <table class="w-full text-left text-sm">
+                                            <thead class="bg-slate-50">
+                                                <tr>
+                                                    <th class="px-4 py-3 font-bold text-slate-500">Nome</th>
+                                                    <th class="px-4 py-3 font-bold text-slate-500">Parentesco</th>
+                                                    <th class="px-4 py-3 text-right">Ação</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="members-list-body">
+                                                <!-- Added via JS -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECTION: DETAILS -->
+                <section id="section-details" class="section-content hidden space-y-8 animate-in slide-in-from-right duration-500 max-w-5xl mx-auto">
+                    <!-- Data populated via JS when clicking on a family -->
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Lucide Icons Library -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Custom Script -->
+    <script src="script.js"></script>
+</body>
+</html>

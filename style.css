@@ -1,0 +1,198 @@
+/* CSS Personalizado - Projeto Social Cotiveiro */
+
+/* Configuração de Cores e Estilo Bento Grid */
+:root {
+    --primary: #2563eb;
+    --primary-hover: #1d4ed8;
+    --emerald-500: #10b981;
+    --emerald-600: #059669;
+    --slate-50: #f8fafc;
+    --slate-100: #f1f5f9;
+    --slate-200: #e2e8f0;
+    --slate-900: #0f172a;
+}
+
+/* Typography Base */
+body {
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, .font-display {
+    font-family: 'Outfit', sans-serif;
+}
+
+/* Bento Cards Layout */
+.bento-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.bento-card:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+}
+
+/* Inputs e Botões */
+.input-field {
+    width: 100%;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.input-field:focus {
+    background: white;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08);
+}
+
+.btn-primary {
+    background: #2563eb;
+    color: white;
+    font-weight: 600;
+    border-radius: 14px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+/* Navegação Sidebar */
+.nav-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: rgba(219, 234, 254, 0.6);
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.nav-item i {
+    width: 18px;
+    height: 18px;
+    transition: color 0.2s ease;
+}
+
+.nav-item:hover {
+    background: rgba(255, 255, 255, 0.04);
+    color: white;
+}
+
+.nav-item.active {
+    background: rgba(255, 255, 255, 0.08);
+    color: white;
+    border-left: 4px solid #10b981;
+    border-radius: 0 12px 12px 0;
+}
+
+.nav-item.active i {
+    color: #10b981;
+}
+
+/* Dashboard Shortcuts */
+.shortcut-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    border-radius: 16px;
+    border: 1px solid #f1f5f9;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.shortcut-btn:hover {
+    border-color: #2563eb;
+    background: rgba(37, 99, 235, 0.05);
+}
+
+.shortcut-btn i {
+    color: #94a3b8;
+    transition: color 0.2s ease;
+}
+
+.shortcut-btn:hover i {
+    color: #2563eb;
+}
+
+.shortcut-btn span {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #64748b;
+}
+
+/* Tabs */
+.tab-btn {
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #64748b;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.tab-btn:hover {
+    color: #0f172a;
+}
+
+.tab-btn.active {
+    background: white;
+    color: #2563eb;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* Animations */
+.animate-in {
+    animation-fill-mode: forwards;
+}
+
+@keyframes flyIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fly-in {
+    animation: flyIn 0.5s ease;
+}
+
+/* Utility classes for vanilla version */
+.hidden { display: none; }
+.block { display: block; }
+.flex { display: flex; }
+
+/* Print Styles */
+@media print {
+    .print\:hidden { display: none !important; }
+    #sidebar, header, .btn-primary { display: none !important; }
+    body { background: white; padding: 0; }
+    .bento-card { box-shadow: none; border: 1px solid #ddd; border-radius: 0; }
+    #main-app { display: block !important; }
+    main { margin-left: 0 !important; }
+}
